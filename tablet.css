@@ -1,0 +1,86 @@
+/* =====================================================================
+   TABLET (pelanggan) — portrait & landscape: layar penuh, tidak ada margin kosong / geser samping, UI tidak pecah.
+   Dimuat PALING AKHIR (setelah compact.css). Rentang 600–1400px (iPad, tablet Android, jendela sempit desktop).
+   ===================================================================== */
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html, body{ max-width:100%; overflow-x:hidden; }
+body{ min-height:100vh; min-height:100dvh; }
+
+@media (min-width:600px) and (max-width:1400px){
+    body{
+        padding-left:max(16px, env(safe-area-inset-left));
+        padding-right:max(16px, env(safe-area-inset-right));
+        padding-bottom:max(40px, calc(env(safe-area-inset-bottom) + 24px));
+    }
+    .app-shell{ max-width:none; width:100%; }
+    .view, .panel, .table-section, .field, .field-grid > *{ min-width:0; }
+    .table-wrap{ max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .modal-overlay{ padding:max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+    .modal-box{ max-width:94vw; max-height:calc(100dvh - 24px); overflow-y:auto; -webkit-overflow-scrolling:touch; }
+    .toolbar{ flex-wrap:wrap; }
+    .toolbar .search-wrap{ flex:1 1 260px; min-width:0; }
+}
+
+/* ---- Portrait: header tidak menempel, menu bisa digeser, kolom lebih sedikit ---- */
+@media (min-width:600px) and (max-width:1400px) and (orientation:portrait){
+    header.app-header{ position:static; }
+    .stats{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .input-section .field-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+    .cf-row.r5{ grid-template-columns:1fr 1fr 1fr; }
+    .cf-row.r3{ grid-template-columns:1fr 1fr; } .cf-row.r3 .field:last-child{ grid-column:span 2; }
+}
+
+/* ---- Menu atas (DIRECTORY ... SETTING ... PRICE): satu baris penuh yang bisa digeser kiri-kanan, portrait MAUPUN landscape ---- */
+@media (min-width:641px) and (max-width:1400px){
+    header.app-header{ flex-wrap:wrap; row-gap:8px; }
+    .page-nav{
+        order:10; flex:1 1 100%; width:100%; min-width:0; max-width:100%;
+        flex-wrap:nowrap; justify-content:flex-start;
+        overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; touch-action:pan-x;
+        scrollbar-width:thin; padding-bottom:4px;
+    }
+    .page-nav::-webkit-scrollbar{ height:4px; }
+    .page-nav::-webkit-scrollbar-thumb{ background:var(--border-strong, rgba(127,127,127,.4)); border-radius:4px; }
+    .page-nav .nav-group, .page-nav button, .page-nav .nav-divider{ flex:0 0 auto; }
+    .page-nav .nav-items{ max-width:none; overflow:visible; }
+    .page-nav .nav-group.collapsed .nav-items{ max-width:0; overflow:hidden; }
+}
+
+/* ---- Landscape: manfaatkan lebar, header tetap rapi ---- */
+@media (min-width:900px) and (max-width:1400px) and (orientation:landscape){
+    .stats{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+    header.app-header{ top:8px; }
+}
+/* landscape pendek (keyboard muncul / tablet kecil): header tidak memakan tinggi layar */
+@media (orientation:landscape) and (max-height:620px){
+    header.app-header{ position:static; }
+    .modal-box{ max-height:calc(100dvh - 16px); }
+}
+
+/* ---- Layar sentuh: target tap besar, input tidak memicu zoom iOS ---- */
+@media (pointer:coarse){
+    .btn{ min-height:40px; }
+    .btn-icon{ min-width:40px; min-height:40px; }
+    .page-nav button{ min-height:40px; }
+    input:not([type=checkbox]):not([type=radio]):not([type=range]), select, textarea{ font-size:16px; }
+    input[type=checkbox], input[type=radio]{ width:20px; height:20px; }
+    .hold-tabs button, .orq-filter button{ min-height:38px; }
+}
+
+/* ---- Khusus portal pelanggan ---- */
+@media (min-width:600px) and (max-width:1400px){
+    .portal-shell{ max-width:none; width:100%; padding-left:max(24px, env(safe-area-inset-left)); padding-right:max(24px, env(safe-area-inset-right)); padding-bottom:max(60px, calc(env(safe-area-inset-bottom) + 30px)); }
+    .auth-shell{ min-height:100dvh; }
+    .summary-grid{ grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); }
+    .order-box-list{ display:grid; grid-template-columns:repeat(auto-fill, minmax(330px, 1fr)); gap:14px; align-items:start; }
+    .order-box-list .order-card{ margin-bottom:0; }
+    .cu-table-wrap, .table-scroll{ max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .p-tabs, .filter-tabs{ flex-wrap:wrap; }
+}
+@media (min-width:600px) and (max-width:1400px) and (orientation:portrait){
+    .portal-header{ flex-wrap:wrap; gap:10px; }
+    .summary-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+}
+@media (min-width:900px) and (max-width:1400px) and (orientation:landscape){
+    .summary-grid{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+}
